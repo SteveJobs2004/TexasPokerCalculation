@@ -83,14 +83,14 @@ def evaluate_7cards(cards):
 # 2. 页面配置与 UI 渲染
 # ==========================================
 st.set_page_config(page_title="德州扑克概率计算器", page_icon="🃏", layout="wide")
-st.title("🃏 德州扑克动态胜率计算器 (Monte Carlo)")
+st.title("🃏 德州扑克动态胜率计算器 ")
 st.markdown("---")
 
 # 侧边栏：参数设置
 with st.sidebar:
     st.header("⚙️ 模拟参数设置")
     num_players = st.slider("玩家总人数", min_value=2, max_value=9, value=5)
-    num_simulations = st.select_slider("蒙特卡罗模拟局数", options=[10000, 20000, 50000, 100000], value=20000)
+    num_simulations = st.select_slider("蒙特卡罗模拟局数", options=[20000, 50000, 100000, 500000, 100000], value=20000)
     st.info("💡 提示：模拟局数越大，结果越精确，但计算等待时间越长。网页端建议使用 20,000 次。")
 
 # 主界面：选牌区域
@@ -128,11 +128,11 @@ st.info(f"**你的手牌:** {p1_str}  \n**公共牌面:** {comm_str}")
 # ==========================================
 # 3. 运行模拟逻辑
 # ==========================================
-if st.button("🚀 开始计算胜率", type="primary", use_container_width=True):
+if st.button("开始计算胜率", type="primary", use_container_width=True):
     if len(p1_selection) != 2:
         st.error("⚠️ 错误：你必须选择正好 2 张手牌才能开始计算！")
     else:
-        with st.spinner('正在进行蒙特卡罗模拟运算，请稍候...'):
+        with st.spinner('正在进行运算，请稍候...'):
             start_time = time.time()
             
             known_cards = p1_selection + community_selection
@@ -189,7 +189,6 @@ if st.button("🚀 开始计算胜率", type="primary", use_container_width=True
                 for name, count in losing_reasons.most_common():
                     reasons_data.append({
                         "击败你的牌型": name,
-                        "出现次数": count,
-                        "在失败局中占比 (%)": f"{(count / losses) * 100:.2f}%"
+                        "击败你的概率 (%)": f"{(count / losses) * 100:.2f}%"
                     })
                 st.dataframe(reasons_data, use_container_width=True)

@@ -48,7 +48,7 @@ with col2:
         key="community_cards",
     )
 
-st.markdown("### 🎲 当前牌面")
+st.markdown("### 当前牌面")
 p1_text = "  ".join(CARD_NAMES[card] for card in p1_selection) if p1_selection else "尚未选择"
 community_text = (
     "  ".join(CARD_NAMES[card] for card in community_selection)
